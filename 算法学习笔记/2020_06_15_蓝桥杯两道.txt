@@ -1,0 +1,57 @@
+第一题:
+	试题 算法训练 动态数组使用
+		 
+	资源限制
+	时间限制：1.0s   内存限制：512.0MB
+	从键盘读入n个整数，使用动态数组存储所读入的整数，并计算它们的和与平均值分别输出。要求尽可能使用函数实现程序代码。平均值为小数的只保留其整数部分。
+	样例输入: 
+	5 
+	3 4 0 0 2
+	样例输出:
+	9  1
+	样例输入: 
+	7
+	3 2 7 5 2 9 1
+	样例输出:
+	29  4
+
+第一题解法:
+	def main(num, num_list):
+		sum_res = sum(num_list)
+		average_res = sum_res//num
+		print(sum_res,average_res)
+
+	N = int(input())
+	num_list = list(map(int,input().strip().split(' ')))
+
+	if __name__ == '__main__':
+		main(N,num_list)
+        
+第二题:
+    试题 算法训练 大小写转换
+         
+    资源限制
+    时间限制：1.0s   内存限制：512.0MB
+    问题描述
+    　　编写一个程序，输入一个字符串（长度不超过20），然后把这个字符串内的每一个字符进行大小写变换，即将大写字母变成小写，小写字母变成大写，然后把这个新的字符串输出。
+    　　输入格式：输入一个字符串，而且这个字符串当中只包含英文字母，不包含其他类型的字符，也没有空格。
+    　　输出格式：输出经过转换后的字符串。
+    输入输出样例
+    样例输入
+    AeDb
+    样例输出
+    aEdB
+    
+第二题解法:
+    def fun1(Str):#cpu使用高30
+        print(Str.swapcase())
+
+    def fun2(Str):#cpu使用低15
+        print(''.join(map(lambda x:chr(ord(x)^32),Str)))
+    if __name__ == '__main__':
+        Str = input()
+        fun2(Str)
+
+
+
+

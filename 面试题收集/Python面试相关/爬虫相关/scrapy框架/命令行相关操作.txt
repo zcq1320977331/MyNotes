@@ -1,0 +1,19 @@
+1. 新建scrapy爬虫项目
+    scrapy startproject 项目名
+    
+2. 新建一个爬虫(spider中)
+    (1): scrapy genspider 爬虫名(name) 爬虫域名 做约束的域名(allowed_domainss,会过滤掉不在其中的url)
+    (2): scrapy genspider 爬虫名(name) -t crawl 爬虫域名 做约束的域名(allowed_domainss)
+3. 运行爬虫
+    scrapy crawl 爬虫名(name)
+4. 运行爬虫的python代码写法:
+    (1): 新建一个py文件作为启动文件(如start.py, 或者run.py, 或者main.py )
+    (2): 文件中写如下脚本:
+        from scrapy.cmdline import execute
+        execute('scrapy crawl name'.split())
+        #或者:execute(['scrapy','crawl','name'])
+    (3): 同时运行所有爬虫:
+        1. 写多个命令行去开启:
+        2. 写脚本,如下
+            pass
+        

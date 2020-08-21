@@ -1,0 +1,104 @@
+1. 排序算法的介绍
+    (1): 排序也称为排序算法(Sort Algorithm),是将一组数据按照指定的数据排列的过程
+    (2): 内部排序,指将需要处理的所有数据都加载到内部中储存器中进行排序
+    (3): 外部排序,数据量过大,无法全部加载到内存中,需要借助外部储存进行排序
+    
+2. 常见内部排序
+    (1): 插入排序
+        1. 直接插入排序
+        2. 希尔排序
+    
+    (2): 选择排序
+        1. 简单选择排序
+        2. 堆排序
+    
+    (3): 交换排序
+        1. 冒泡排序
+        2. 快速排序
+    
+    (4): 归并排序
+    
+    (5): 基数排序(桶排序)
+    
+3. 冒泡排序 (时间复杂度  O(N^2))
+    (1):普通
+        def BubbleSort(data,reverse=False):
+            '''
+            :param data: 需要排序数组
+            :param reverse: 是否逆序
+            :return: 排序完成的数组
+            '''
+            N = len(data)-1
+            if not reverse:
+                while N>1:
+                    for i in range(N):
+                        if data[i] > data[i+1]:#大的后移
+                                data[i],data[i+1] = data[i+1],data[i]
+                    N-=1
+                return data
+            else:
+                while N>1:
+                    for i in range(N):
+                        if data[i] < data[i+1]:#小的的后移
+                                data[i],data[i+1] = data[i+1],data[i]
+                    N-=1
+                return data
+    (2): 优化后
+        def BubbleSort(data,reverse=False):
+            '''
+            :param data: 需要排序数组
+            :param reverse: 是否逆序
+            :return: 排序完成的数组
+            '''
+            N = len(data)-1
+            if not reverse:
+                while N>1:
+                    print(N)
+                    status = True
+                    for i in range(N):
+                        if data[i] > data[i+1]:#大的后移
+                            status = False
+                            data[i],data[i+1] = data[i+1],data[i]
+                    if status:
+                        return data
+                    N-=1
+                return data
+            else:
+                while N>1:
+                    print(N)
+                    status = True
+                    for i in range(N):
+                        if data[i] < data[i+1]:#小的的后移
+                            status = False
+                            data[i],data[i+1] = data[i+1],data[i]
+                    if status:
+                        return data
+                    N-=1
+                return data
+4. 选择排序(时间复杂度  O(N^2))
+    def SelectionSort(data,reverse=False):
+        '''
+        :param data: 需要排序数组
+        :param reverse: 是否逆序
+        :return: 排序完成的数组
+        '''
+        L = 0
+        R = len(data)
+        if not reverse:
+            while L < R:
+                Min = L
+                for i in range(L,R):
+                    if data[Min] > data[i]:#找到最小的
+                        Min = i
+                data[L],data[Min] = data[Min],data[L]#交换到第L(从0开始,依次0,1,2....)位置上
+                L+=1
+            return data
+        else:
+            while L < R:
+                Max = L
+                for i in range(L,R):
+                    if data[Max] < data[i]:
+                        Max = i
+                data[L],data[Max] = data[Max],data[L]
+                L+=1
+            return data

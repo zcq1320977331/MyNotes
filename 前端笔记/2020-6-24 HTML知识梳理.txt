@@ -1,0 +1,145 @@
+(1). 域名解析
+    1. 每一个域名对应一个ip地址,浏览器访问域名时会先从本地查找域名对应ip地址,如果找不到会像DNS域名服务器发送请求,获得对应ip
+    2. 访问域名时不加端口默认是80端口
+
+
+(2). 请求和响应
+    请求:浏览器socket客户端给服务端发信息
+    响应:服务端socket给客户端回信息
+
+(3). 标签
+    1. Html标签:超文本标记语言,就是标记用的.
+    2. 标签必须是封闭的
+    3. 标签属性写在标签名后如:<h1 id='xx' asdfasfd='xxx'>你好</h1>  
+
+(4). 标签分类
+	1. 内敛标签(行内标签):不独占一行,内敛标签只能嵌套内敛标签    b\i\u\s\button\span\img\a
+	2. 块级标签(行外标签):自己独占一行,可以嵌套内敛标签和某些块级标签   \h1-h6\br\hr\p\div
+	3. p标签:不能嵌套p标签,也不能嵌套块级标签
+
+
+(5). head标签中的标签
+    1. <title></title>	定义网页标题
+    2. <meta/>	定义网页原信息\配置信息(了解)
+    3. <link rel="stylesheet" type="text/css" href="theme.css" />, 链接一个内部样式表
+    4. <script type="text/javascript"> ,链接JS脚本
+    5. <link rel="icon"  href="http://pic.nen.com.cn/003/003/718/00300371805_i1000600000600ae_58a3bcfe.jpg"> ,设置网页图标
+```
+(6). body标签中的基本标签
+    行内标签(内敛标签):
+        1. <b>b加粗标签</b>
+        2. <i>斜体标签</i>
+        3. <u>下划线标签</u>
+        4. <s>删除标签</s>
+        5. <b>b加粗标签</b>
+        6. <button>按钮</button> ,普通按钮,和提交按钮(type="submit")只在form表单中有效,提交表单数据
+        7. <sapn>组合行内元素,便于一起设置样式</sapn>
+        8. <img src="" alt="" height="" width="">, 插入图片,src:图片路径; alt图片没有加载成功的提示; height,width:图片高和宽
+        9. <a href="https://www.baidu.com/" target="_blank">百度一下</a>,超链接标签,target:是否新建窗口,"_self",当前窗口打开,"_blank" 新建窗口打开
+        
+        
+    块级标签(行外标签):
+        1. h1-h6字体从大到小
+        2. <br> 换行
+        3. <hr> 分割线
+        4. <p>段落标签</p> , 独占一个段落
+        5. <div>分区</div>
+        6. 无序列表
+            <ul>
+                <li>斗破苍穹</li>
+                <li>傲世九重天</li>
+                <li>斗罗大陆</li>
+                <li>大主宰</li>
+            </ul>
+        7. 有序列表
+            <ol>
+                <li>李白</li>
+                <li>杜甫</li>
+                <li>白居易</li>
+                <li>王安石</li>
+            </ol>
+        8. 标题列表标签
+            <dl>
+              <dt>标题1</dt>
+              <dd>内容1</dd>
+              <dt>标题2</dt>
+              <dd>内容1</dd>
+              <dd>内容2</dd>
+            </dl>
+
+
+(7). 特殊字符
+
+    空格:&nbsp;
+    小于号:&lt;
+    大于号:&gt;
+    &符号:&amp;
+
+
+(8). 表格标签(重点)
+    name属性:分组,携带数据的key   key:value
+    value:选择框提交数据的时的值,输入框的默认值
+    
+    1. <table border="1" cellpadding="10" cellspacing="20">
+        (1). cellpadding:文字和内边框的距离
+        (2). cellspacing:内边框和外边框的距离
+        (3). border:边框宽度
+    2. <thead></thead>, 表头; <tbody></tbody>,表身
+    3. <tr><th>姓名</th></tr>,元素
+    4. 例如
+        <table cellpadding="1" cellspacing="" border="1">
+            <thread>
+                <tr>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>年龄</th>
+                </tr>
+            </thread>
+            <tbody>
+            <tr>
+                    <th>小明</th>
+                    <th>男</th>
+                    <th>12</th>
+            </tr>
+            <tr>
+                    <th>小刚</th>
+                    <th>男</th>
+                    <th>11</th>
+            </tr>
+            <tr>
+                    <th>小红</th>
+                    <th>女</th>
+                    <th>11</th>
+            </tr>
+            </tbody>
+        </table>
+
+(8). form(表单)标签 (重点)
+    1. <form action="127.0.0.1:8001">, action,提交数据的地址
+    2. input标签,输入框
+        (1). type="text",单行输入文本<input type="text" name="uersname"/><br>
+        (2). type="password",密码输入框（不显示明文）<input type="password" name="password"/><br>
+        (3). type="date",日期输入框	<input type="date" name="data"/><br>
+        (4). type="checkbox",复选框1 <input type="checkbox" checked="checked" name='x'/><br>
+        (5). type="checkbox",复选框2 <input type="checkbox" checked="checked" name='x'/><br><br>
+        (6). type="radio",单选框1<input type="radio" name='y'/><br>
+        (7). type="radio",单选框2<input type="radio" name='y'/><br><br>
+        (8). type="submit",提交按钮	<input type="submit" value="提交"/><br>
+        (9). type="reset",重置按钮	<input type="reset" value="重置"/><br>
+        (10). type="button" ,普通按钮	<input type="button" value="普通按钮"/><br>
+        (11). type="hidden",隐藏输入框	<input type="hidden"/><br>
+        (12). type="file",文本选择框	<input type="file"/> <br>
+    3. select标签,下拉选择框
+        (1). <select name="city" id="">
+            <option value="1">北京</option>, 选择项,multiple多选
+    4. textarea多行文本
+        (1). <textarea name="memo" id="memo" cols="30" rows="10">,name(key),名称,rows：行数,相当于文本框高度设置,cols：列数
+
+
+
+
+
+
+
+
+

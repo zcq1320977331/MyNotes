@@ -1,0 +1,78 @@
+1. 列出python中可变的数据类型和不可变的数据类型,并简述其原理.
+    (1): 不可变数据类型: 数值型, 字符串型str ,和元组tuple
+    (2): 不可变数据类型,即不能修改变量值,如果修改,相当于创建了一个新对象,
+         而原来的对象不会改变,对于相同值的对象,其实内存中也只有一个,用内置
+         方法id()可以进行查看
+    (3): 可变的数据类型:列表list和字典dict
+    (4): 对于可变的数据类型,修改操作并不会创建一个新对象,而是对原来对象的值
+         直接进行操作,且变量引用的地址不会改变,但是不同的对象可以有相同的值,
+         并且在内存中有两个对象,
+    (5): 可变的数据类型进行引用时会有两中方法浅拷贝(不创建新对象,或者只创建表
+         层新对象)和深拷贝(完全创建新对象)
+         
+2. s = 'abcbcbcddefjjh',去重后按照从小到大顺序排列
+    s = 'abcbcbcddefjjh'
+    lst = list(set(s))
+    lst.sort()
+    res = ''.join(lst)
+    print(res)    
+
+3. 用lambda函数实现两个数相乘
+    fun = lambda x,y:x*y
+    print(fun(3,4))
+4. 字典根据键从小到大排列
+    dic ={'name':'lihua','aeg':12,'city':'beijing','tel':'10086'}
+    res = dict(sorted(dic.items(),key=lambda x:x[0]))
+    print(res)
+5. 统计字符串中每个单词出现的次数s = 'abcbcbcddefjjh',
+        
+    from collections import Counter
+
+    def fun1(Str):
+        res = {}
+        for ele in Str:
+            if ele not in res:
+                res[ele] = 1
+            else:
+                res[ele] += 1
+        return res
+
+    def fun2(Str):#利用collections库的Counter方法,按多到少顺序输出
+        res = Counter(Str)
+        return res
+
+    str1 = 'abcbcbcddefjjh'
+    print(fun1(str1))
+
+    print(fun2(str1))
+
+6. 字符串中Str = 'not foound 404 小明 12 北京',利用正则去掉英文和数字,输出'小明 北京'
+    import re
+    Str = 'not foound 404 小明 12 北京'
+    res = re.sub(r'[0-9,a-zA-Z,]+\s','',Str)
+    print(res)
+
+7. 求出列表中所有奇数,并且构造新列表,lst = [1,2,3,4,5,6,7,8,9]
+    def fun1(lst):
+        return [x for x in lst if x%2!=0]
+    def fun2(lst):#filter返回迭代器
+        return list(filter(lambda x:x%2!=0, lst))
+
+
+    lst = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    print(fun1(lst))
+    print(fun2(lst))
+
+8. 列表推导式求出列表中所有奇数,并且构造新列表,lst = [1,2,3,4,5,6,7,8,9]
+    def fun1(lst):
+        return [x for x in lst if x%2!=0]
+9. 正则re.complie作用
+    (1): re.complie是将正则表达式编译成一个对象,加快速度,并能够重复使用
+
+10. a = (1, )和a = (1)和a = ('1')分别是什么类型数据
+    a1 = (1, )
+    a2 = (1)
+    a3 = ('1')
+    print(type(a1),type(a2),type(a3),)
+    
+    <class 'tuple'> <class 'int'> <class 'str'>

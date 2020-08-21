@@ -1,0 +1,77 @@
+第一题:
+	试题 算法训练 最小乘积(基本型)    
+	资源限制
+	时间限制：1.0s   内存限制：512.0MB
+	问题描述
+	　　给两组数，各n个。
+	　　请调整每组数的排列顺序，使得两组数据相同下标元素对应相乘，然后相加的和最小。要求程序输出这个最小值。
+	　　例如两组数分别为:1 3　　-5和-2 4 1
+
+	　　那么对应乘积取和的最小值应为：
+	　　(-5) * 4 + 3 * (-2) + 1 * 1 = -25
+	输入格式
+	　　第一个行一个数T表示数据组数。后面每组数据，先读入一个n，接下来两行每行n个数，每个数的绝对值小于等于1000。
+	　　n<=8,T<=1000
+	输出格式
+	　　一个数表示答案。
+	样例输入
+	2
+	3
+	1 3 -5
+	-2 4 1
+	5
+	1 2 3 4 5
+	1 0 1 0 1
+	样例输出
+	-25
+	6
+
+第一题解法:
+    def main():
+        T = int(input())
+        for i in range(T):
+            N = int(input())
+            lst1 = list(map(int,input().strip().split(' ')))
+            lst1.sort()
+            lst2 = list(map(int,input().strip().split(' ')))
+            lst2.sort(reverse=True)
+            res = 0
+            for x in range(N):
+                res = res + lst1[x]*lst2[x]
+            print(res)
+
+    if __name__ == '__main__':
+        main()
+        
+第二题:
+    试题 算法训练 删除数组零元素
+    资源限制
+    时间限制：1.0s   内存限制：512.0MB
+    从键盘读入n个整数放入数组中，编写函数CompactIntegers，删除数组中所有值为0的元素，其后元素向数组首端移动。注意，CompactIntegers函数需要接受数组及其元素个数作为参数，函数返回值应为删除操作执行后数组的新元素个数。输出删除后数组中元素的个数并依次输出数组元素。
+    样例输入: （输入格式说明：5为输入数据的个数，3 4 0 0 2 是以空格隔开的5个整数）
+    5 
+    3 4 0 0 2
+    样例输出:（输出格式说明：3为非零数据的个数，3 4 2 是以空格隔开的3个非零整数）
+    3
+    3 4 2
+    样例输入: 
+    7
+    0 0 7 0 0 9 0
+    样例输出:
+    2
+    7 9
+    样例输入: 
+    3
+    0 0 0
+    样例输出:
+    0
+
+
+第二题解法:
+    def CompactIntegers(num,lst):
+        res = [str(x) for x in lst if x !=0]
+        print(len(res))
+        print(' '.join(res))
+    num = int(input())
+    lst = list(map(int,input().strip().split(' ')))
+    CompactIntegers(num,lst)

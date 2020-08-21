@@ -1,0 +1,81 @@
+1. 简述面向对象中的__new__和__init__的区别
+	(1): __init__是初始化方法,当实例化对象后就被默认调用执行了,可以接受参数
+    (2): __new__至少有一个参数cls, 代表当前类, 此参数在实例化时由python解释器自动识别
+    (3): __new__必须要有返回值,返回实例化出来的实例,如果要自行实现__new__时可以return
+        父类(super(当前类,cls)),
+    (4): __init__有一个参数self,就是__new__返回的实例,__init__在__new__的基础上可以完成一些
+        其他初始化操作,且不需要返回值
+    (5): 如果__new__创建的是当前类的实例,会自动调用执行__init__方法,如果是其他类则不会,
+    class My(object):
+        def __new__(cls, *args, **kwargs):
+            print(cls)
+            print(object.__new__(cls))
+            return object.__new__(cls)
+        def __init__(self):
+            print(self)
+    my = My()
+    print(my)
+    输出:
+        <class '__main__.My'>
+        <__main__.My object at 0x000002048E39EBA8>
+        <__main__.My object at 0x000002048E39EBA8>
+        <__main__.My object at 0x000002048E39EBA8>
+
+        进程已结束,退出代码0
+        
+2.简述with方法打开处理文件帮我们做了什么?
+    类似:
+        f = open('demo1.txt','r',encoding='utf8')
+        try:
+            f.read()
+        except:
+            pass
+        finally:
+            f.close()
+    打开文件操作时经常发生意外,with方法就像利用了try,except,finally,无论如何都会自动关闭文件
+
+3. 列表[1,2,3,4,5],请使用map()函数输出[1,4,9,16,25],并使用列表推导式取出大于10的函数,最终输出[16,25]
+    print([x for x in list(map(lambda x: x*x,[1,2,3,4,5])) if x>10])
+    
+4. python中生成随机整数,随机小数,0-1小数
+    (1): 随机整数 random.randint(1,100)
+    (2): 随机小数 numpy.random.randn(5)
+    (3): 0-1小数 random.random()
+
+5. 为了避免转义加上那个字母表示原始字符串
+    r, 表示需要原始字符串,不需要转义
+    
+6. <div class='nam'>中国</div>,用正则匹配出标签里的内容,其中class的类名是不确定的
+    import re
+    str = "<div class='nam'>中国</div>"
+    res = re.findall(r'>(.+?)</div>',str)
+    print(res)
+    
+7. python 中的断言
+    a=1
+    print(1)
+    assert (a==2)#如果不成立报错,成立继续执行
+    print(2)
+
+8. 数据表中student中有id, name,score,city字段,其中name中的名字可有重复,需要消除重复行,请写sql语句
+    select distinct name from student
+
+9. 请写出10个常用的linux命令
+    (1):cd 切换工作目录
+    (2):pwd 显示工作路径
+    (3):ls 查看目录中的文件
+    (4):ls -F 查看目录中的文件
+    (5):ls -l 显示文件和目录的详细信息
+    (6):ls -a 显示隐藏文件
+    (7):mk 创建文件夹
+    (8):rm 删除文件夹
+    (9):find 搜索文件
+    (10):date 显示日期
+
+10. python2 和python3 的区别
+    (1):print时2不需要小括号也行,只需要加空格即可,在3必须加
+    (2):在2中range返回的是列表,在3返回的这是迭代器
+    (3):在2中的编码是ASCII码,在3中则是utf8
+    (4):在2中unicode表示字符串序列,str表示字节序列,在3中则是str表示字符串序列,byte表示字节序列
+    (5):在2中为了正常显示中文,需要引入coding声明,在3中不需要
+    (6):在2中的输入函数是raw_input(),在3中则是input()函数

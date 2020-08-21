@@ -1,0 +1,104 @@
+1. 简述python引用技术机制
+    (1): python垃圾回收主要以引用计数为主,标记-清除和分代清除为辅的机制,其中标记-清除和
+         分代回收主要是为了处理循环引用的难题
+    (2): 引用技术算法
+        1. 有一个变量保存对象引用后,该对象引用计数会加一
+        2. 用del 删除对象时,如果引用计数为1,就会直接被删除,否则会将引用计数减一
+    (3):如下所示,只有删除最后一个引用是才会彻底清除
+        1. 代码:
+            class Person(object):
+                def __init__(self,name,age):
+                    self.name = name
+                    self.age = age
+                def __del__(self):
+                    print('删除对象:%s'%self.name)
+            person1 = Person('小明',12)
+            person2 = person1
+            person3 = person1
+            print("删除对象:%s" %person1)
+            del person1
+            print("删除对象:%s" %person2)
+            del person2
+            print("删除对象:%s" %person3)
+            del person3
+        2. 结果:
+            删除对象:<__main__.Person object at 0x000001485D4FECC0>
+            删除对象:<__main__.Person object at 0x000001485D4FECC0>
+            删除对象:<__main__.Person object at 0x000001485D4FECC0>
+            删除对象:小明
+            
+2. int(1.4) 和 int('1.4')
+    (1): int(1.4) 输出1
+    (2): int('1.4') 报错
+    (3): 想把字符串形式小数转为int,需要先转成float如int(float('1.4'))
+3. 列举3条以上PEP8编码规范
+    (1): PEP8 (Python Enhancement Proposal), python增强提案,针对python语言编订的代码风格指南
+    (2): 顶级定义之间空两行如函数和类定义
+    (3): 方法定义,类定义与第一个方法之间都应该空一行
+    (4): 三引号注释
+    (5): 使用Pycharm ,Eclipses一般使用4个空格缩进
+    
+4. 用正则匹配第一个url,html = '<a href="https://pro.fanyi.so.com/quic?src=fanyiweb&amp;from=22&amp;
+   to=21&amp;cont=person" target="_blank" class="human-translate">人工翻译</a>'
+    (1): 
+        import re
+        html = '<a href="https://pro.fanyi.so.com/quic?src=fanyiweb&amp;from=22&amp;to=21&amp;cont=person" target="_blank" class="human-translate">人工翻译</a>'
+        print(re.findall(r' href="(.+?)"',html))
+
+5. 用正则匹配中文
+    import re
+    html = '<a href="https://pro.fanyi.so.com/quic?src=fanyiweb&amp;from=22&amp;to=21&amp;cont=person" target="_blank" class="human-translate">人工翻译</a>'
+    print(re.findall(r'[\u4e00-\u9fa5]+',html))#['人工翻译']
+    
+6. 乐观锁和悲观锁
+    (1): 乐观锁, 每次拿数据认为别人不会修改,不上锁,只在更新时判断此期间别人是否更新了该数据,
+         乐观锁适用于多读的应用类型,这样可以提高吞吐量
+    (2): 悲观锁,每次拿数据时都会认为别人会修改,都会上锁,这样别人要操作数据时,只能等他操作完
+         传统数据库用到很多锁机制,表锁,行锁,读锁,写锁等,在操作之前先上锁.
+         
+7. 文件打开模式区别
+    (1): r , 只读模式,文件指针在文件开头
+    (2): w , 只写模式,文件存在覆盖文件,不存在创建
+    (3): a , 追加模式,文件存在追加文件,文件指针在文件结尾,不存在创建,
+    (4): rb , 以二进制形式(字节)只读
+    (5): wb , 以二进制形式(字节)只写
+    (6): ab , 以二进制形式(字节)只追加
+    (7): r+ , 打开一个文件用于读写,文件指针在文件开头
+    (8): w+ , 打开一个文件用于读写,文件存在覆盖文件,不存在创建
+    (9): a+ , 打开一个文件用于读写,文件存在追加文件,文件指针在文件结尾,不存在创建,
+    (10): rb+,wb+,ab+,以二进制形式(字节)打开文件,功能一样
+
+8. linux 命令重定向> 和 >>
+    (1): linux 允许将命令执行结果重新定向到一个文件,将本应该在终端显示的内容,输出/追加
+         到指定文件中.
+    (2): > ,表示输出,会覆盖原来文件
+    (3): >> ,表示追加,会将内容追加到已有文件的末尾.
+    (4): 如 python Hello > 1.txt, 或者 python Hello >> 1.txt,
+    
+9. 正则匹配,匹配 html = '<html><h1>Hello Python</h1></html>'
+    import re
+    html = '<html><h1>Hello Python</h1></html>'
+    print(re.match(r'<(.+)><(.+)>.+</\2></\1>',html).group())#按照分组
+    
+10. python 传参数是传值还是传址?
+    (1): python函数参数传递是引用传递(不是传值),对于不可变的数据类型函数执行时不会影响变量本身
+         对于可变类型(list,dict,等),函数的执行会改变传递过来的参数
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

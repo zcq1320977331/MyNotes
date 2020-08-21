@@ -1,0 +1,89 @@
+普通的爬虫项目(scrapy genspider 爬虫名 allowed_domains限制)    
+    1. 每个爬虫文件(name_spider)中的属性
+        (1): name='爬虫名'
+        (2): allowed_domains = ['tycqxs.com',]限制url
+        (3): start_urls = [url]启动的url
+        (4):custom_settings = {'ITEM_PIPELINES':{'shop.pipelines.DoupoPipeline': 300}}
+            #设置管道(pipeline),同时需要在settings中配置
+    2. 其他操作
+        (1):重写请求
+            def start_requests(self):
+                yield scrapy.Request(url)                
+        (2):response.urljoin(url),拼接url
+        (3):yield scrapy.Request(url=new_url, callback=self.parse,dont_filter=True),将url继续解析
+        (4):response 解析器
+            extract()|它返回一个unicode字符串以及所选数据
+            extract_first()|它返回第一个unicode字符串以及所选数据
+            re()|它返回Unicode字符串列表，当正则表达式被赋予作为参数时提取
+            xpath()|它返回选择器列表，它代表由指定XPath表达式参数选择的节点
+            css()|它返回选择器列表，它代表由指定CSS表达式作为参数所选择的节点
+        (5):利用xpath解析时操作
+            1. extract(),返回所有,列表
+            2. extract_first(),返回第一个,字符串
+    3. 数据传递以及保存相关
+        (1). 生成xml,josn,csv文件
+            1. return 数据
+            2. 在命令行执行scrapy crawl 爬虫名 -o 文件名 类型(可以文件名.类型)
+        (2). 交给pipeline处理
+            1. yield {key:value}字典类型
+            2. yield item类型
+                (1):需要设置items
+                    class DoubanItem(scrapy.Item):
+                        name = scrapy.Field(),参数名1
+                        score = scrapy.Field(),参数名2
+                (2):设置完参数后需要在spider中引入items中的类才能使用,from shop.items import DoubanItem
+                (3):导入后需要通过对应参数名传递值
+                    for name, score in zip(names, scores):
+                        item['name'] = name
+                        item['score'] = score
+                        yield item
+crawlspider爬虫项目(scrapy genspider -t crawl 爬虫名 allowed_domains限制)
+        Rule类与CrawlSpider类都位于scrapy.contrib.spiders模块中
+            ```
+            class scrapy.contrib.spiders.Rule (  
+            link_extractor, callback=None,cb_kwargs=None,follow=None,process_links=None,process_request=None ) 
+            ```
+            rules = (
+            Rule(LinkExtractor(restrict_xpaths=r'//div[@id="list"]//dd[10]/a'),callback='parse_item', follow=True),
+    1.相关参数
+    LinkExtractor参数含义：
+        - link_extractor为LinkExtractor，用于定义需要提取的链接
+        - callback参数：当link_extractor获取到链接时参数所指定的值作为回调函数
+            - callback参数使用注意：
+            当编写爬虫规则时，请避免使用parse作为回调函数。于CrawlSpider使用parse方法来实现其逻辑，如果您覆盖了parse方法，crawlspider将会运行失败
+
+        - follow：指定了根据该规则从response提取的链接是否需要跟进。当callback为None,默认值为True
+
+        - process_links：主要用来过滤由link_extractor获取到的链接
+        - process_request：主要用来过滤在rule中提取到的request
+
+    提取链接参数含义：
+        response对象中获取链接，并且该链接会被接下来爬取
+        每个LinkExtractor有唯一的公共方法是 extract_links()，它接收一个 Response 对象，并返回一个 scrapy.link.Link 对象
+
+        ```
+        class scrapy.linkextractors.LinkExtractor(
+            allow = (),
+            deny = (),
+            allow_domains = (),
+            deny_domains = (),
+            deny_extensions = None,
+            restrict_xpaths = (),
+            tags = ('a','area'),
+            attrs = ('href'),
+            canonicalize = True,
+            unique = True,
+            process_value = None
+        )
+        ```
+        主要参数：
+
+        - allow：满足括号中“正则表达式”的值会被提取，如果为空，则全部匹配。
+
+        - deny：与这个正则表达式(或正则表达式列表)不匹配的URL一定不提取。
+
+        - allow_domains：会被提取的链接的domains。
+
+        - deny_domains：一定不会被提取链接的domains。
+
+        - restrict_xpaths：使用xpath表达式，和allow共同作用过滤链接(只选到节点，不选到属性)           

@@ -1,0 +1,10 @@
+开启splash的两种方式
+	1. 在shell中启动,
+        (1). 打开Docker Quickstart Terminal,获取到ip
+        (2). docker run -p 8050:8050 scrapinghub/splash
+        (3). 然后在浏览器访问ip:8050即可
+        (4). 关闭
+            1. 查看正在服务的id, docker ps
+            2. docker kill id, 关闭服务
+    2.在图形化界面中打开
+        (1)打开 Kitematic (Alpha)

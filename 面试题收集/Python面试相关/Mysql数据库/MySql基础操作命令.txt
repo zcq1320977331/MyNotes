@@ -1,0 +1,64 @@
+SQL 语言分为三种类型
+	DDL语句(database defined language): 数据库定义语言,数据库,表,视图,索引,存储过程, create, drop , alter
+	DML语句(database manage language): 数据库操纵语言,插入(insert),更改(update),查询(select),删除(delete)
+	DCL语句(database control language): 数据库控制语句,控制用户访问权限,grant , revoke
+
+常用命令:
+    连接登录命令:
+        1. mysql -uroot -proot 登录MySQL客户端链接本地server
+ 
+        2. mysql -uroot -proot -h127.0.0.1(或者域名) 登录MySQL客户端链接同一局域网中另一台电脑的MySQL server,-h后加要连接主机ip(或者域名) 
+        
+        3. select user(); 查看当前用户
+        
+        4. set password for 用户名@localhost = '密码'; 设置当前用户的密码
+        
+        5. exit 退出登录
+        
+    创建新用户命令:
+        1. create user '用户名'@'权限'identified by '密码';
+            如权限为网段的:192.168.21.%
+            如权限为个人的:192.168.21.21
+            如权限为所有人通用的:%
+            例如:create user 'visitor1'@'%'identified by '123';
+            
+        2. grant 权限类型 on 数据库.* to '用户名'@'权限'('用户名'@'权限'和创建的保持一致)
+            权限类型有:all(增删改查) / select(查找) / insert(写入)
+            数据库的写法有: 数据库.*(整个数据库) / 数据库.表(这个数据库的一个表)
+            例如:grant all on visitor_database.* to 'visitor1'@'%' ;
+            
+        3. grant 权限类型 on 数据库.* to '用户名'@'权限' identified by '123';(创建和授权同时进行)
+        
+        4. flush privileges;(刷新,使授权(数据)立即生效)
+        
+    数据库操作:
+        切换:
+            1. use 数据库名; (切换到指定数据库下中)
+        增:
+            1. create database 数据库名; (创建一个新的数据库)
+            
+            2. create table 表名(字段(每一列的名字) 数据类型,)
+                数据类型有: int (数值)/ char (字符串)/
+                可以有多个字段,用','分割,例如:create table people(name char(18),age int);
+            
+            3. insert into 表名 values(数据) ,向表中插入一条数据
+                (1): 插入的数据要和表结构对应,如people中的数据结构为(name char(12), age int),此时数据因为('字符串',12)
+                (2):例如:insert into people values('小红',10);
+            
+        删:
+            1. drop database 数据库名; (删除一个数据库)
+            
+            2. delete from 表名 where name='小明'(条件) ,删除一条数据,如果没有where会清空表
+        改:
+            1. update 表名 set 字段名=修改值 where name='小明'(条件),修改数据,如果没有where会改所有
+                例如: update people set age=24 where name='小明';
+            
+        查:
+            1. show databases; 查看所有数据库 
+            2. show tables; 查看数据库中所有表
+            3. desc 表名; 查看表的结构(不显示数据)
+            4. select * from 表名; 查寻该表的所有数据
+注意事项:
+    1. 输入MySQL命令时结尾要有';'隔开,表示命令输入完毕
+    2. 只有在root(管理员),才能创建新用户,并且给创建的用户授权
+    3. 默认端口3306

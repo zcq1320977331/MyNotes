@@ -1,0 +1,111 @@
+1. 正则匹配'date = 2020-6-18'
+    import re
+    str1 = '%daterange=2020-6-18%'
+    print(re.findall(r'=(.+)%',str1))
+2. list = [2,1,4,3,6,5],从小到大排序,不使用排序函数
+    lst = [2,1,3,1,12,1,4,7,3,6,5,1,21]
+    N = len(lst)
+    while N>0:#冒泡,最大的向后移动
+        for i in range(N-1):
+            if lst[i]>lst[i+1]:
+                lst[i],lst[i+1] = lst[i+1],lst[i]
+        N-=1
+    print(lst)
+3. 写一个单列模式
+    class New(object):
+        __instance = None
+        def __new__(cls, name, age):
+            if not cls.__instance:
+                cls.__instance = object.__new__(cls)
+            return cls.__instance
+        def __init__(self,name, age):
+            self.name = name
+            self.age =age
+    a = New('小明',12)
+    b = New('小红',10)
+    print(id(a),id(b))#2803218705152 2803218705152,id相同
+    print(a.name,b.name)#输出均为小红,说明对象只有一个
+    
+4. 保留两位小数
+    print('%.4f'%(1/3))#利用%.4f格式化
+    print('{:.4f}'.format(1/3))#利用format
+    print(round(1/3,4))#使用round
+    
+5. 求三个方法打印结果
+    def fn(key,value,dic={}):
+        dic[key] = value
+        print(dic)
+    fn('a',1)
+    fn('b',2)
+    fn('c',3,{})
+    fn('d',4,)
+    # {'a': 1}
+    # {'a': 1, 'b': 2}
+    # {'c': 3}
+    # {'a': 1, 'b': 2, 'd': 4}#如果不传如新字典,就会将数据加入到函数默认字典中
+    
+6. 列出常见的状态码和意义
+    (1): 200 OK , 请求正常处理完毕
+    (2): 204 No Content , 请求处理成功,没有实体的主题返回
+    (3): 206 Partial Content , GET范围请求以成功处理
+    (4): 301 Moved Permanently , 永久重定向,资源已永久分配新URL
+    (5): 202 Found , 临时重定向 ,资源以临时分配新URL
+    (6): 303 See Other 临时重定向, 期望使用GET定向获取
+    (7): 304 Not Modified ,发送的附带请求条件未满足
+    (8): 307 Temporary Redirect 临时重定向,POST 不会变成GET
+    (9): 400 Bad Request 请求报文语法错误或者参数错误
+    (10): 401 Unauthorized 需要通过HTTP认证,或者认证失败
+    (11): 403 Forbidden 请求资源被拒绝
+    (12): 404 Not Found 无法找到请求资源(服务器无理由拒绝)
+    (13): 500 Internal Server Unavailable 服务器故障或者Web应用故障
+    (14): 503 Service Unavailable 服务器超负载或者停机维护
+
+7. 分别从前端,后端,数据库阐述web项目性能优化
+    (1): 前端优化
+        1. 减少http请求 ,例如制作精灵图
+        2. html 和 css 放在页面上部,JavaScript放在页面下,因为js加载比较慢,
+           所以优先加载html , css 以防页面显示不全,性能差,影响用户体验
+    (2): 后端优化
+        1. 缓存存储读写次数高,变化少的数据,比如网站信息首页,商品信息等.
+           应用程序读取数据时,一般是先从缓存中读取数据,如果读不到,再访问
+           磁盘数据库,并将数据再次缓存
+        
+        2. 异步方式 ,如果有耗时操作,可以采用异步 ,比如celery
+        3. 代码优化,避免循环和多次判断,将最可能发生的if语句放在最前
+    (3): 数据库优化
+        1. 如果有条件,数据可以存放redis ,读取速度快
+        2. 建立索引和外键等
+        
+8. 使用pop 和 del 删除字典中的键值对
+    dic = {'a':1,'b':2,'c':2}
+    print(dic)#{'a': 1, 'b': 2, 'c': 2}
+    dic.pop('a')
+    print(dic)#{'b': 2, 'c': 2}
+    del dic['b']
+    print(dic)#{'c': 2}
+ 
+9. 列出常见的mysql 数据存储引擎
+    (1): nnoDB：支持事务处理，支持外键，支持崩溃修复能力和并发控制。如果需要对事务的
+         完整性要求比较高（比如银行），要求实现并发控制（比如售票），那选择InnoDB有很大的
+         优势。如果需要频繁的更新、删除操作的数据库，也可以选择InnoDB，因为支持事务的提交
+         (commit）和回滚（rollback）。
+
+    (2): MyISAM：插入数据快，空间和内存使用比较低。如果表主要是用于插入新记录和读出
+         记录，那么选择MyISAM能实现处理高效率。如果应用的完整性、并发性要求比 较低，也可
+         以使用。
+
+    (3):MEMORY：所有的数据都在内存中，数据的处理速度快，但是安全性不高。如果需要很快的读
+        写速度，对数据的安全性要求较低，可以选择MEMOEY。它对表的大小有要求，不能建立太大的表。
+        所以，这类数据库只使用在相对较小的数据库表。
+
+10. 合并['a','b','c'],[1,2,3],为[('a', 1), ('b', 2), ('c', 3)]和{'a': 1, 'b': 2, 'c': 3}
+
+    lst1 = ['a','b','c']
+    lst2 = [1,2,3]
+    print(list(zip(lst1,lst2)))#[('a', 1), ('b', 2), ('c', 3)]
+    print(dict(list(zip(lst1,lst2))))#{'a': 1, 'b': 2, 'c': 3}
+    print([(lst1[i],lst2[i]) for i in range(min(len(lst1),len(lst1)))])#[('a', 1), ('b', 2), ('c', 3)]
+    print(dict([(lst1[i],lst2[i]) for i in range(min(len(lst1),len(lst1)))]))#{'a': 1, 'b': 2, 'c': 3}        
+
+    
+    

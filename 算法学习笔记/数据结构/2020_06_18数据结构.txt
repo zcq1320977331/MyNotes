@@ -1,0 +1,192 @@
+1. 前缀表达式(波兰表达式)
+    (1): 前缀表达式又称波兰表达式, 前缀表达式的运算符位于操作符之前
+    (2): 如:(3+4)*5-6 ,对应的前缀表达式就是 - * + 3 4 5 6
+    (3): 前缀表达式的计算机求值时,从右至左扫描表达式, 遇到数字时,将数字压入堆栈,
+         遇到运算符时,弹出堆栈的两个数,用运算符进行运算(栈顶和次顶元素),并将
+         结果入栈,重复上述过程直到表达式最左端,,最后的出的值即为结果:
+    (4): 计算过程简单实现
+        class Stack():#定义一个栈
+            def __init__(self,):
+                self.stack = []
+            def push(self,data):
+                self.stack.append(data)
+            def pop(self):
+                return self.stack.pop()
+
+        def deal(sign ,num1, num2):#处理算法
+            if sign == '*':
+                return num1*num2
+            if sign == '/':
+                return num1//num2
+            if sign == '+':
+                return num1+num2
+            if sign == '-':
+                return num1-num2
+
+        str1 = '- * + 3 4 5 6'#前波兰表达式
+        lst = str1.split()[::-1]#转成列表方便计算
+        stack = Stack()#实例化栈
+        for ele in lst:#处理波兰表达式
+            if ele.isdigit():#是数字压入栈
+                stack.push(ele)
+            else:#是运算符进行运算,用栈顶和次顶元素
+                ret = deal(ele,int(stack.pop()),int(stack.pop()))
+                stack.push(ret)
+        print(stack.pop())
+
+
+2. 中缀表达式(普通表达式)
+    (1): 常用的计算式,如:(3+4)*5-6,从人角度方便理解,从计算机方面,不容易运算
+
+3. 后缀表达式(逆波兰表达式)
+    (1): 后缀表达式又称逆波兰表达式 ,与前缀表达式相似,只是运算符位于操作数之后
+    (2): 如:(3+4)*5-6 ,的后缀表达式为 3 4 + 5 * 6 -
+    (3): 后缀表达式的计算机求值时 ,从左向右扫描,遇到数字压入堆栈,遇到操作符时,弹
+         出栈顶的两个数,用运算符对他们进行相应计算,此时数据位置为(次顶元素和栈顶元素)
+         并将结果入栈,重复上述过程直到表达式最右端,最后运算得出的值即为表达式结果
+    (4): 计算过程简单实现
+        class Stack():#定义一个栈
+            def __init__(self,):
+                self.stack = []
+            def push(self,data):
+                self.stack.append(data)
+            def pop(self):
+                return self.stack.pop()
+
+        def deal(sign ,num2, num1):#处理算法
+            if sign == '*':
+                return num1*num2
+            if sign == '/':
+                return num1//num2
+            if sign == '+':
+                return num1+num2
+            if sign == '-':
+                return num1-num2
+
+        str1 = '3 4 + 5 * 6 -'#逆波兰表达式
+        lst = str1.split()#转成列表方便计算
+        stack = Stack()#实例化栈
+        for ele in lst:#处理逆波兰表达式
+            if ele.isdigit():#是数字压入栈
+                stack.push(ele)
+            else:#是运算符进行运算,用次顶元素,和栈顶元素
+                ret = deal(ele,int(stack.pop()),int(stack.pop()))
+                stack.push(ret)
+        print(stack.pop())
+        
+
+4. 中缀表达式转后缀表达式
+    (1): 初始化两个栈, 运算符栈s1和存储中间结果栈s2
+    (2): 从左至右扫描中缀表达式
+    (3): 遇到操数时 ,将其压入s2
+    (4): 遇到运算符时,比较其与s1栈顶元素的优先级;
+        1. 如果栈顶为空,或者栈顶运算符为'(',则直接入栈
+        2. 否则, 若优先级比栈顶符号优先级高,也将运算符压入栈顶
+        3. 否则, 将栈顶运算符弹出并压入到s2中,然后再重新比较
+    (5): 遇到括号时
+        1. 如果是'(',直接压入到s1
+        2. 如果是')',则依次弹出s1栈顶运算符并压入s2,直到遇到'('为止,此时将这一对小括号丢弃
+    (6): 重复2-5,直到走到表达式结束
+    (7): 将s1剩余的运算符依次弹出并压入s2
+    (8): 依次弹出s2中元素,结果就是逆波兰表达式
+    
+5. 逆波兰计算器
+    class Stack():#定义一个栈
+        def __init__(self,):
+            self.stack = []
+        def push(self,data):#入栈
+            self.stack.append(data)
+        def pop(self):#出栈
+            return self.stack.pop()
+        def is_empty(self):#是否栈空
+            return not len(self.stack)
+        def top(self):#栈顶元素
+            if self.is_empty():
+                return None
+            return self.stack[-1]
+
+
+
+
+    class InversPolishCalculator(object):#逆波兰计算器
+
+        def deal(self,exspression):#主程序,传入中缀表达式,返回结果
+            list_expression = self.get_list_expression(exspression)
+            stack = Stack()  # 实例化栈
+            for ele in list_expression:  # 处理逆波兰表达式
+                if ele.isdigit():  # 是数字压入栈
+                    stack.push(ele)
+                else:  # 是运算符进行运算,用次顶元素,和栈顶元素
+                    ret = self.operation(ele, int(stack.pop()), int(stack.pop()))
+                    stack.push(ret)
+            return stack.pop()#返回结果
+
+        def operation(self,sign, num2, num1):  # 定义算法
+            if sign == '*':
+                return num1 * num2
+            if sign == '/':
+                return num1 // num2
+            if sign == '+':
+                return num1 + num2
+            if sign == '-':
+                return num1 - num2
+
+        def deal_str(self,exspression):#处理中缀表达式字符串,转为列表形式方便计算
+            status = 0
+            res = ''
+            exspression = exspression.strip().replace(' ','')
+            for ele in exspression:
+                if ele.isdigit():
+                    if status == 1:
+                        res =res.strip(' ')
+                        res = res + ele + ' '
+                    else:
+                        status = 1
+                        res= res+ele+' '
+                else:
+                    status = 0
+                    res = res + ele + ' '
+            return res.strip().split(' ')
+
+        def get_list_expression(self,exspression):#将中缀表达式列表形式转后缀
+            lst = self.deal_str(exspression)
+            s1 = Stack()
+            s2 = Stack()
+            for ele in lst:
+                if ele.isdigit():
+                    s2.push(ele)
+                else:
+                    self.deal_symbol(ele,s1,s2)
+            while not s1.is_empty():
+                s2.push(s1.pop())
+            res = []
+            while not s2.is_empty():
+                res.append(s2.pop())
+            return res[::-1]
+
+        def deal_symbol(self,ele,s1,s2):#处理符号入栈出栈问题
+            if s1.is_empty() or s1.top() == '(' or ele == '(':
+                s1.push(ele)
+            elif ele == ')':
+                while s1.top() != '(':
+                    s2.push(s1.pop())
+                s1.pop()
+            elif self.get_priority(ele) > self.get_priority(s1.top()):
+                s1.push(ele)
+            else:
+                s2.push(s1.pop())
+                self.deal_symbol(ele,s1,s2)
+
+        def get_priority(self,sign):#获取符号优先级
+            if sign=='*' or sign=='/':
+                return 2
+            elif sign=='+' or sign=='-':
+                return 1
+
+
+
+    if __name__ == '__main__':
+        exspression = '( 6+4)*1/2-10'
+        Calculator = InversPolishCalculator()
+        ret = Calculator.deal(exspression)
+        print(ret)

@@ -1,0 +1,224 @@
+1. 快速排序(冒泡优化)
+	import random,time
+	start = time.time()
+	def QuickSort1(data,left,right,):#从小到大
+		L = left  # 获取最左边坐标
+		R = right  # 获取最右边坐标
+		Middle = data[(L + R) // 2]  # 获取分割值,将数据分为两部分,大于Middle为一部分,小于Middle为一部分
+
+		while L < R:  # 当左边的值不超过右边的值,说明没有遍历完所有数据,继续遍历
+			while data[L] < Middle:  # 从左向右遍历,找到一个大于或者等于Middle的值
+				L += 1
+			while data[R] > Middle:  # 从右向左遍历,找到一个小于于或者等于Middle的值
+				R -= 1
+			if L >= R:  # 如果找到的是同一个,说明是Middle的值,直接退出,说明已经排好
+				break
+			data[L], data[R] = data[R], data[L]  # 如果不是,交换位置
+			if data[L] == Middle:  # 如果此时左边值为Middle,说明左边已经排好,右边继续遍历
+				R -= 1
+			if data[R] == Middle:  # 如果此时右边值为Middle,说明右边已经排好,左边继续遍历
+				L += 1
+		if L == R:  # 如果L==R,说明同时指向middle,所以进行L += 1,R -= 1,将数据以middle分成两部分
+			L += 1
+			R -= 1
+		if left < R:  # 分成两部分后,先进行左边递归,即当left>=R时,说明递归完毕,否则一直递归
+			QuickSort1(data, left, R)
+		if right > L:  # 然后进行右边递归
+			QuickSort1(data, L, right)
+		return data
+
+	def QuickSort2(data,left,right,):#从大到小
+		L = left  # 获取最左边坐标
+		R = right  # 获取最右边坐标
+		Middle = data[(L + R) // 2]  # 获取分割值,将数据分为两部分,大于Middle为一部分,小于Middle为一部分
+		while L < R:  # 当左边的值不超过右边的值,说明没有遍历完所有数据,继续遍历
+			while data[L] > Middle:  # 从左向右遍历,找到一个小于或者等于Middle的值
+				L += 1
+			while data[R] < Middle:  # 从右向左遍历,找到一个大于或者等于Middle的值
+				R -= 1
+			if L >= R:  # 如果找到的是同一个,说明是Middle的值,直接退出,说明已经排好
+				break
+			data[L], data[R] = data[R], data[L]  # 如果不是,交换位置
+			if data[L] == Middle:  # 如果此时左边值为Middle,说明左边已经排好,右边继续遍历
+				R -= 1
+			if data[R] == Middle:  # 如果此时右边值为Middle,说明右边已经排好,左边继续遍历
+				L += 1
+		if L == R:  # 如果L==R,说明同时指向middle,所以进行L += 1,R -= 1,将数据以middle分成两部分
+			L += 1
+			R -= 1
+		if left < R:  # 分成两部分后,先进行左边递归,即当left>=R时,说明递归完毕,否则一直递归
+			QuickSort2(data, left, R)
+		if right > L:  # 然后进行右边递归
+			QuickSort2(data, L, right)
+		return data
+	def QuickSort(data,left,right,reverse = False):
+		if not reverse:
+			data1 = QuickSort1(data,left,right)
+		else:
+			data1 = QuickSort2(data, left, right)
+		return data1
+
+	if __name__ == '__main__':
+		# data = [8,9,1,7,2,3,9,1,5,4,6,0]
+		data = [random.randint(1,10000) for i in range(10000)]
+		ret = QuickSort(data,0,len(data)-1,reverse=True)
+		# print(ret)
+		end = time.time()
+		print(end-start)
+		input()
+        
+2. 归并排序,利用归并的实现实现的算法,采用经典的分治(分而治之,将大问题分成小问题进行计算)
+
+    import random,time
+    start = time.time()
+
+    def Merge1(data,left,mid,right,):#从小到大排
+        '''
+        传入两部分数据,然后整合到一起
+        :param data: 需要排序的数据
+        :param left: 需要整合数据最左边
+        :param mid: 需要整合数据中间
+        :param right: 需要整合数据最右边
+        '''
+        temp = [] #定义空数组,暂存排序好的数据
+        i = left #第一部分数据下标开始位置
+        j = mid+1 #第二部分数据下标开始位置
+
+        # 当两部分数据有一部分被遍历完后退出
+        while i<=mid and j<=right:
+
+            # 比较两部分数据,从小到大依次放入到临时数组temp
+            if data[i] < data[j]:
+                temp.append(data[i])
+                i+=1
+            else:
+                temp.append(data[j])
+                j+=1
+
+        #退出循环时,把两部分数据有完全遍历的数据依次追加到temp完成排序
+        while i<=mid:
+            temp.append(data[i])
+            i += 1
+        while j<=right:
+            temp.append(data[j])
+            j += 1
+
+        # 将整理好的数据更新到原始数据中
+        # 元素数据更新的范围为data[left,right],逐一遍历更新
+        index = left
+        for i in range(len(temp)):
+            data[index]=temp[i]
+            index+=1
+
+
+    def Merge2(data, left, mid, right, ):  # 从大到小排
+        '''
+        传入两部分数据,然后整合到一起
+        :param data: 需要排序的数据
+        :param left: 需要整合数据最左边
+        :param mid: 需要整合数据中间
+        :param right: 需要整合数据最右边
+        '''
+        temp = []  # 定义空数组,暂存排序好的数据
+        i = left  # 第一部分数据下标开始位置
+        j = mid + 1  # 第二部分数据下标开始位置
+
+        # 当两部分数据有一部分被遍历完后退出
+        while i <= mid and j <= right:
+
+            # 比较两部分数据,从大到小依次放入到临时数组temp
+            if data[i] > data[j]:
+                temp.append(data[i])
+                i += 1
+            else:
+                temp.append(data[j])
+                j += 1
+
+        # 退出循环时,把两部分数据有完全遍历的数据依次追加到temp完成排序
+        while i <= mid:
+            temp.append(data[i])
+            i += 1
+        while j <= right:
+            temp.append(data[j])
+            j += 1
+
+        # 将整理好的数据更新到原始数据中
+        # 元素数据更新的范围为data[left,right],逐一遍历更新
+        index = left
+        for i in range(len(temp)):
+            data[index] = temp[i]
+            index += 1
+
+
+    def MergeSort(data,left,right,reverse = False):
+        if left < right:
+            mid = (left+right)//2
+            MergeSort(data,left,mid,reverse)
+            MergeSort(data, mid+1, right,reverse)
+            if not reverse:
+                Merge1(data,left,mid,right)
+            else:
+                Merge2(data, left, mid, right)
+        return data
+
+
+    if __name__ == '__main__':
+        # data = [8,9,1,7,2,3,9,1,5,4,6,0]
+        data = [random.randint(1,10000) for i in range(10000)]
+        ret = MergeSort(data,0,len(data)-1)
+        # print(ret)
+        end = time.time()
+        print(end-start)
+        input()
+        
+        
+3. 基数排序
+    import random,time
+    start = time.time()
+
+
+    def RadixSort(data,):
+        lst = [[] for i in range(10)]
+        for i in range(len(str(max(data)))):#获取最大位数,排序次数为最大位数
+            for ele in data:#依次将data数据入桶
+                index = ele//10**i%10 #依次获取个,十,百,等位的数
+                lst[index].append(ele)#按照特定位的数入桶
+            data=[x for ele in lst for x in ele ]#将桶中数据依次取出,重新放到数据中
+            lst = [[] for i in range(10)]#重置桶
+        return data
+
+
+    if __name__ == '__main__':
+        # data = [118, 229, 3121, 427, 152, 63, 79, 81, 95, 104, 116, 120, 2, 4, 6]
+        data = [random.randint(1,10000) for i in range(10000)]
+        ret = RadixSort(data)
+        # print(ret)
+        end = time.time()
+        print(end-start)
+        input()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

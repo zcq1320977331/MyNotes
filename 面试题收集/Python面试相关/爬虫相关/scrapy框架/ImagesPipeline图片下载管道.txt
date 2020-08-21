@@ -1,0 +1,55 @@
+ImagesPipeline简介
+    Scrapy提供了一个 item pipeline ，来下载属于某个特定项目的图片，比如，当你抓取产品时，也想把它们的图片下载到本地。这条管道，被称作图片管道，在 ImagesPipeline类中实现，提供了一个方便并具有额外特性的方法，来下载并本地存储图片:
+        1. 将所有下载的图片转换成通用的格式（JPG）和模式（RGB）
+        2. 避免重新下载最近已经下载过的图片
+        3. 缩略图生成
+        4.检测图像的宽/高，确保它们满足最小限制
+
+ImagesPipeline使用
+    #出现No module named 'PIL',需要安装pip install pillow 解决
+    1. 编写爬虫
+        (1):普通类型,和crawlspider类型均可
+        (2):编写爬虫时传递参数方式有两种,通过items传递,需要过程如下:
+            1.编写items
+                import scrapy
+                class ImagedownloadItem(scrapy.Item):
+                    img_name = scrapy.Field()
+                    img_urls =scrapy.Field()
+            2. 编写爬虫文件
+                (1):导入from pic.items import ImagesItem
+                (2): 实例化对象item = ImagesItem()
+                (3):通过items定义的参数传递值
+            3. 编写pipeline文件
+                import scrapy
+                from scrapy.pipelines.images import ImagesPipeline
+                #重写方法,改文件名称
+                class PicPipeline(ImagesPipeline):#继承ImagesPipeline类
+                    def get_media_requests(self, item, info):#写get_media_requests方法,获取item传递的url
+                        for image_name,image_url in zip(item['image_names'],item['image_urls']):
+                            yield scrapy.Request(image_url)#保存图片
+            4.配置settings
+                1. 文件保存路径
+                    IMAGES_STORE ='e:/img'
+                2. 配置ITEM_PIPELINES
+                    ITEM_PIPELINES = {
+                    # 'pic.pipelines.PicPipeline': 300,默认
+                    # 'scrapy.pipelines.images.ImagesPipeline':300内置管道,可以不修改
+                    'pic.pipelines.PicPipeline': 300,#自定义管道一定要继承ImagesPipeline类
+                    }
+        (3):通过字典传递,需要过程如下:
+            1. 编写爬虫文件,数据直接yield字典即可
+            2. 编写pipeline文件,如上,
+            3. 配置settings,如上
+    2. 修改保存文件名
+        import scrapy
+        from scrapy.pipelines.images import ImagesPipeline
+        #重写方法,改文件名称
+        class PicPipeline(ImagesPipeline):
+            def get_media_requests(self, item, info):
+                for image_name,image_url in zip(item['image_names'],item['image_urls']):
+                    print(image_url,image_name)
+                    yield scrapy.Request(image_url,meta={'image_name':image_name})#通过meta传递数据(文件名)
+
+            def file_path(self, request, response=None, info=None):#重写方法
+                print(type(request.meta['image_name']))#通过request.meta取出数据(文件名)
+                return request.meta['image_name']+'.jpg'#返回文件路径(在设置的路径后追加)

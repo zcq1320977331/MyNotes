@@ -1,0 +1,62 @@
+1. 两个列表[1,2,3,4]和[5,6,7,8,9]合并成一个
+    lst1 = [1,2,3,4]
+    lst2 = [5,6,7,8,9]
+    lst1.extend(lst2)#逐个添加,append是整体添加
+    print(lst1)
+
+2. 用python删除文件,和用linux 命令删除文件
+    (1): python  os.remove(文件名)
+    (2): linux  rm 文件名
+
+3. log日志中, 我们需要用时间戳记录error ,warning 等发生的时间,请用datetime模块打印当前的时间戳
+    import datetime
+    # res = datetime.datetime.now() #2020-06-16 17:14:05.398528
+    res = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') #2020-06-16 17:15:50
+    res = datetime.datetime.now().isoweekday() # 2(周几)
+    print(res)
+
+4. 数据库优化查询的方法
+    外键,索引,联合查询,选择特定字段
+    
+5. 请列出你会的任意一种统计图(条形图,折线图)绘制的开源库,第三方也行
+    (1): pyecharts
+    (2): matplotlib
+
+6. 写一串自定义异常代码
+    def fn(N):
+        try:
+            if N>2:
+                raise Exception('数字大于二')
+        except Exception as e:
+            print(e)
+
+    fn(3)
+
+7. 正则表达式匹配中, (.*)和(.*?)匹配区别?
+
+    (1): (.*)是贪婪匹配,会把满足正则的尽可能向后匹配
+    (1): (.*?)是非贪婪匹配,会把满足正则的尽可能少匹配
+
+8. 简述 Django的orm
+    (1): orm 全称为object-relation mapping,意为对象-映射关系
+    (2): 实现了数据模型与数据库的解耦, 通过简单的配置就可以轻松更换数据库
+    (3): orm 操作的本质上会根据对接的数据库引擎,翻译成对应的sql语句
+    (4): 所有使用Django开发的项目迁移数据库时,只需要更换数据库引擎即可,而不需要修改代码
+    
+9. [[1,2],[2,3],[3,4]] ,展开列表
+    lst = [[1,2],[2,3],[3,4]]
+    print([i for ele in lst for i in ele ])
+    
+10. x = 'abc' ,y = 'cde' ,z = ['e','f','g'],分别求x.join(y)和x.join(z)返回的结果
+    x = '111'
+    y = '222'
+    z = ['3','3','3']
+    print(x.join(y))
+    print(x.join(z))
+
+    结果:
+        211121112
+        311131113
+    结论:
+    join方法是以前面的字符串为连接体,将后面的可迭代对象中的每个元素拼接到一起
+

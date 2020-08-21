@@ -1,0 +1,101 @@
+1. 用sort 和 sorted 对列表排序 lst = [3,-1,1,-2,2,-3]
+    #------------sort----------------
+    lst = [3,-1,1,-2,2,-3]
+    lst.sort()#从小到大
+    print(lst)#[-3, -2, -1, 1, 2, 3]
+    lst.sort(reverse=True)#从大到小
+    print(lst)#[3, 2, 1, -1, -2, -3]
+    #------------sorted----------------
+    lst = [3,-1,1,-2,2,-3]
+    res = sorted(lst)#同lst.sort(),从小到大
+    print(res)
+    res = sorted(lst,reverse=True)#同lst.sort(reverse=True),从大到小
+    print(res)
+
+2. 对列表使用lambda函数排序 lst = [3,-1,1,-2,2,-3],从小到大
+    lst = [3,-1,1,-2,2,-3]
+    res = sorted(lst,key=lambda x:x)
+    print(res)
+
+3. 对列表使用lambda函数排序 lst = [3,-1,1,-2,2,-3],正数从小到大,负数从大到小
+    lst = [3,-1,1,-2,2,-3]
+    res = sorted(lst,key=lambda x:(x<0,abs(x)))#同lst.sort(),从小到大
+    print(res)
+ 
+4. 对列表嵌套字典排序 lst = [{'name':'c','age':2},{'name':'d','age':1},{'name':'b','age':3},{'name':'a','age':4},]
+   分别根据name,和age排序
+    lst = [{'name':'c','age':2},{'name':'d','age':1},{'name':'b','age':3},{'name':'a','age':4},]
+    res = sorted(lst,key=lambda x:x['name'])#根据name,逆序res = sorted(lst,key=lambda x:x['name'],reverse=True)
+    print(res)
+    #[{'name': 'a', 'age': 4}, {'name': 'b', 'age': 3}, {'name': 'c', 'age': 2}, {'name': 'd', 'age': 1}]
+    res = sorted(lst,key=lambda x:x['age'])#根据age,,逆序res = sorted(lst,key=lambda x:x['age'],reverse=True)
+    print(res)
+    #[{'name': 'd', 'age': 1}, {'name': 'c', 'age': 2}, {'name': 'b', 'age': 3}, {'name': 'a', 'age': 4}]
+    
+5. 对列表嵌套元组排序 lst = [('d',1),('b',3),('c',2),('a',4),]分别根据字母,和数字排序
+    lst = [('d',1),('b',3),('c',2),('a',4),]
+    res = sorted(lst,key=lambda x:x[0])#根据字母,逆序res = sorted(lst,key=lambda x:x[0],reverse=True)
+    print(res)
+    #[('a', 4), ('b', 3), ('c', 2), ('d', 1)]
+    res = sorted(lst,key=lambda x:x[1])#根据数字,逆序res = sorted(lst,key=lambda x:x[1],reverse=True)
+    print(res)
+    #[('d', 1), ('c', 2), ('b', 3), ('a', 4)]
+    
+6. 对列表嵌套列表排序 lst = [['d',1],['b',3],['c',2],['a',4],], 数字相同怎么排
+    lst = [['d',1],['b',2],['c',2],['a',4],]
+    res = sorted(lst,key=lambda x:(x[1],x[0]))#数字相同根据字母排序
+    print(res)
+
+    
+7. 字典排序 dic = {'name':'c','name':'d','name':'b','name':'a',},使用zip
+    dic = {'8':'c','9':'d','6':'b','7':'a',}
+    res = zip(dic.keys(),dic.values())
+    #------------------根据键--------------------
+    ret = sorted(res,key=lambda x:x[0])#根据键排序
+    print(dict(ret))#{'6': 'b', '7': 'a', '8': 'c', '9': 'd'}
+    #------------------根据值--------------------
+    res = zip(dic.keys(),dic.values())
+    ret = sorted(res,key=lambda x:x[1])#根据值排序
+    print(dict(ret))#{'7': 'a', '6': 'b', '8': 'c', '9': 'd'}
+
+8. 字典排序 dic = {'name':'c','name':'d','name':'b','name':'a',},不使用zip        
+    dic = {'8':'c','9':'d','6':'b','7':'a',}
+    #------------------根据键--------------------
+    ret = sorted(dic.items(),key=lambda x:x[0])#根据键排序
+    print(dict(ret))#{'6': 'b', '7': 'a', '8': 'c', '9': 'd'}
+    #------------------根据值--------------------
+    ret = sorted(dic.items(),key=lambda x:x[1])#根据值排序
+    print(dict(ret))#{'7': 'a', '6': 'b', '8': 'c', '9': 'd'}
+    
+9. 列表推导式,字典推导式,生成器
+    #------------------列表推导式--------------------
+    lst = [x for x in range(5)]
+    print("type:%s\nlst:%s"%(type(lst),lst))
+    # type:<class 'list'>
+    # lst:[0, 1, 2, 3, 4]
+    #------------------字典推导式--------------------
+    lst = dict([(str(x),x) for x in range(5)])
+    print("type:%s\nlst:%s"%(type(lst),lst))
+    # type:<class 'dict'>
+    # lst:{'0': 0, '1': 1, '2': 2, '3': 3, '4': 4}
+    #--------------------生成器----------------------
+    lst = (x for x in range(5))
+    print("type:%s\nlst:%s"%(type(lst),lst))
+    # type:<class 'generator'>
+    # lst:<generator object <genexpr> at 0x000001A5A99209E8>
+
+10. 根据列表中字符串长度排序  lst = ['endswith','abs','append','name',]      
+     
+    lst = ['endswith','abs','append','name',]
+    res = sorted(lst,key=lambda x:len(x))
+    print(res)#['abs', 'name', 'append', 'endswith']
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    

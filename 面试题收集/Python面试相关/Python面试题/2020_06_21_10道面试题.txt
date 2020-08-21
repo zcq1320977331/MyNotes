@@ -1,0 +1,86 @@
+1. sql 注入解决方法
+    (1): 当以字符串格式化书写方式的时候,如果用户输入的有 +sql语句,后面的sql语句就会执行,删除数据库的等
+    (2): 解决方式,通过传参方式解决sql注入,在函数execute('select * from where name=%s',arg)
+    
+2. str1 = 'name:LiHua 12 北京',用正则切割字符串输出所有元素
+    (1): 
+        import re
+        str1 = 'name:LiHua 12 北京'
+        ret = re.split(r':| ',str1)
+        print(ret)   
+    (2):
+        import re
+        str1 = 'name:LiHua 12 北京'
+        ret = re.split(r'[: ]',str1)
+        print(ret)
+3. 正则匹配163.com,邮箱地址
+    import re
+    data = ['xaioming@163.com','xaioming@163.com123','xaioming@qq.com']
+    for ele in data:
+        if re.findall(r"[\w]{4,20}@163.com$", ele):
+            print(re.findall(r"[\w]{4,20}@163.com$", ele))
+
+4. 递归求和
+
+    def fun(N):
+        if N == 1:
+            return 1
+        else:
+            res = N + fun(N-1)
+        return res
+    print(fun(100))           
+
+5. python 字典和josn字符串相互转化的方法
+    import json
+    dict_data = {'name':'liahua','age':12,'adress':'beijing'}
+    json_data = json.dumps(dict_data)
+    print(type(json_data))#<class 'str'>
+    dict_data = json.loads(json_data)
+    print(type(dict_data))#<class 'dict'>
+
+6. 而MyISAM 与 InnoDB 区别?
+    (1): InnoDB 支持事务,而MyISAM不支持,事务是一种高级处理方式,InnoDB中
+         如增删改出错可以还原,而MyISAM 不可以
+    (2): MyISAM适合查询以及插入为主的应用,InnoDB适合频繁修改以及安全性高的应用
+    (3): InnoDB中支持外键,而MyISAM不支持
+    (4): 对于自增长的字段,InnoDB中必须包含只有该字段的索引,但是在MyISAM可以和其他
+         字段一起建立联合索引
+    (5): 清空表时,InnoDB是一行一行删除,效率低,而MyISAM会重建表
+
+7. 统计字符串中某字符出现的次数
+    str1 = 'ababacdcdcdc'
+    print(str1.count('ab'))
+
+8. 字符串大小写转换
+    print('Ab'.lower())#ab
+    print('Ab'.upper())#AB
+    print('Ab'.swapcase())#aB
+9.用两种方法去空格
+    print('a b c'.replace(' ',''))
+    print(''.join('a b c'.split()))
+    
+10. 正则匹配不是以4和7结尾的手机号
+    import re
+    data_list = ['12781240893','10086', '127812408915','10010']
+    for data in data_list:
+        if re.findall(r'^1\d{9}[0-3,5-6,8-9]{1}$', data):
+            print(re.findall(r'^1\d{9}[0-3,5-6,8-9]{1}$', data))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            

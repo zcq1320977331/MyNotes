@@ -1,0 +1,68 @@
+1. 字符串匹配(KMP算法:部分匹配表)
+    str1 = 'abcdefg' , str2 = 'cd',判断str2是否在str1中?
+    
+2. 汉诺塔游戏(分治算法)
+    (1): 将A塔中所有的圆盘移动到C塔
+    (2): 小盘上不能放大盘
+    (3): 三根柱子之间只能移动一个圆盘
+
+3. 八皇后(回溯算法)
+    (1): 棋盘8X8
+    (2): 任意两个皇后不能处于同一行,同一列,同一斜线
+    (3): 问有多少种放法
+4. 骑士周游问题(马踏棋盘算法)
+    (1): 将马放在国际象棋8X8的棋盘上
+    (2): 马按照走日字进行移动,要求每个方格只进一次,走遍棋盘上全部64个方格
+    (3): 会使用到图的深度优化遍历算法(DFS)和贪心算法优化
+    
+5. 线性结构
+    (1): 线性结构是最常用的数据结构,其特点是书局元素存在一对一的线性关系
+    (2): 线性结构有两种不同的存储结构,即顺序存储结构和链式存储结构.顺序存储结构线性表为顺序表,顺序表中的存储元素是连续的
+    (3): 链式存储线性表称为链表,链表中的存储元素不一定是连续的,元素节点中存放数据元素以及相邻元素的地址信息
+    (4): 线性结构常见的有:数组,队列,链表和栈.
+
+6. 非线性结构
+    (1): 非线性结构包括: 二维数组,多维数组,广义表,树结构,图结构
+    
+7. 稀疏数组的实现
+    lst = [
+        [0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,1,0,0,0,0,0,0,0,0,],
+        [0,0,0,2,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,],
+    ]
+    class Array(object):
+        def __init__(self,array,data):
+            self.array = array
+            self.data = data
+            self.zip_res = []
+            self.recovery_res = []
+
+        def zip_array(self):#压缩成稀疏数组
+            self.zip_res.append([len(self.array),len(self.array[0])])
+            for i in range(len(self.array)):
+                for j in range(len(self.array[0])):
+                    if self.array[i][j] != self.data:
+                        self.zip_res.append([i,j,self.array[i][j]])
+            return self.zip_res
+
+        def recovery_arry(self):#恢复数组
+            for i in range(self.zip_res[0][0]):
+                self.recovery_res.append([self.data for i in range(self.zip_res[0][1])])
+            for i in range(1,len(self.zip_res)):
+                print(len(self.recovery_res[0]))
+                self.recovery_res[self.zip_res[i][0]][self.zip_res[i][1]] = self.zip_res[i][2]
+            return self.recovery_res
+
+    array = Array(lst,0)
+    ret = array.zip_array()
+    print(ret)
+    res = array.recovery_arry()
+    print(res)

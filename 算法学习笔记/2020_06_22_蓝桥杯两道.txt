@@ -1,0 +1,141 @@
+第一题:
+试题 算法训练 P0505
+     
+资源限制
+时间限制：1.0s   内存限制：256.0MB
+　　一个整数n的阶乘可以写成n!，它表示从1到n这n个整数的乘积。阶乘的增长速度非常快，例如，13！就已经比较大了，已经无法存放在一个整型变量中；而35！就更大了，它已经无法存放在一个浮点型变量中。因此，当n比较大时，去计算n!是非常困难的。幸运的是，在本题中，我们的任务不是去计算n!，而是去计算n!最右边的那个非0的数字是多少。例如，5！=1*2*3*4*5=120，因此5!最右边的那个非0的数字是2。再如，7！=5040，因此7！最右边的那个非0的数字是4。再如，15！= 1307674368000，因此15！最右边的那个非0的数字是8。请编写一个程序，输入一个整数n(0<n<=100)，然后输出n!最右边的那个非0的数字是多少。
+输入：
+　　7
+输出：
+　　4
+第一题解法:
+def fun(N):
+    if N == 1:
+        return 1
+    else:
+        res = N*fun(N-1)
+        return res
+N = int(input())
+print(str(fun(N)).strip('0')[-1])
+		
+第二题:
+试题 算法训练 表达式计算
+     
+资源限制
+时间限制：1.0s   内存限制：256.0MB
+问题描述
+　　输入一个只包含加减乖除和括号的合法表达式，求表达式的值。其中除表示整除。
+输入格式
+　　输入一行，包含一个表达式。
+输出格式
+　　输出这个表达式的值。
+样例输入
+1-2+3*(4-5)
+样例输出
+-4
+数据规模和约定
+　　表达式长度不超过100，表达式运算合法且运算过程都在int内进行。
+	
+第二题解法:
+#-----------------------------逆波兰计算器--------------------------------
+class Stack():#定义一个栈
+    def __init__(self,):
+        self.stack = []
+    def push(self,data):#入栈
+        self.stack.append(data)
+    def pop(self):#出栈
+        return self.stack.pop()
+    def is_empty(self):#是否栈空
+        return not len(self.stack)
+    def top(self):#栈顶元素
+        if self.is_empty():
+            return None
+        return self.stack[-1]
+
+
+
+
+class InversPolishCalculator(object):#逆波兰计算器
+
+    def deal(self,exspression):#主程序,传入中缀表达式,返回结果
+        list_expression = self.get_list_expression(exspression)
+        stack = Stack()  # 实例化栈
+        for ele in list_expression:  # 处理逆波兰表达式
+            if ele.replace('.','').isdigit():  # 是数字压入栈
+                stack.push(ele)
+            else:  # 是运算符进行运算,用次顶元素,和栈顶元素
+                ret = self.operation(ele, float(stack.pop()), float(stack.pop()))
+                stack.push(ret)
+        return '%.2f'% stack.pop()#返回结果
+
+    def operation(self,sign, num2, num1):  # 定义算法
+        if sign == '*':
+            return num1 * num2
+        if sign == '/':
+
+            return num1/num2
+        if sign == '+':
+            return num1 + num2
+        if sign == '-':
+            return num1 - num2
+
+    def deal_str(self,exspression):#处理中缀表达式字符串,转为列表形式方便计算
+        status = 0
+        res = ''
+        exspression = exspression.strip().replace(' ','')
+        for ele in exspression:
+            if ele.isdigit() or ele =='.':
+                if status == 1:
+                    res =res.strip(' ')
+                    res = res + ele + ' '
+                else:
+                    status = 1
+                    res= res+ele+' '
+            else:
+                status = 0
+                res = res + ele + ' '
+        return res.strip().split(' ')
+
+    def get_list_expression(self,exspression):#将中缀表达式列表形式转后缀
+        lst = self.deal_str(exspression)
+        s1 = Stack()
+        s2 = Stack()
+        for ele in lst:
+            if ele.replace('.','').isdigit():
+                s2.push(ele)
+            else:
+                self.deal_symbol(ele,s1,s2)
+        while not s1.is_empty():
+            s2.push(s1.pop())
+        res = []
+        while not s2.is_empty():
+            res.append(s2.pop())
+        return res[::-1]
+
+    def deal_symbol(self,ele,s1,s2):#处理符号入栈出栈问题
+        if s1.is_empty() or s1.top() == '(' or ele == '(':
+            s1.push(ele)
+        elif ele == ')':
+            while s1.top() != '(':
+                s2.push(s1.pop())
+            s1.pop()
+        elif self.get_priority(ele) > self.get_priority(s1.top()):
+            s1.push(ele)
+        else:
+            s2.push(s1.pop())
+            self.deal_symbol(ele,s1,s2)
+
+    def get_priority(self,sign):#获取符号优先级
+        if sign=='*' or sign=='/':
+            return 2
+        elif sign=='+' or sign=='-':
+            return 1
+
+
+
+if __name__ == '__main__':
+    exspression = input()
+    Calculator = InversPolishCalculator()
+    ret = Calculator.deal(exspression)
+    print(int(float(ret)))
+

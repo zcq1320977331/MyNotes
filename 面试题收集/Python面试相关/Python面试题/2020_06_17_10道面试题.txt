@@ -1,0 +1,113 @@
+1. 举例说明异常模块中的try except else finally 的相关意义
+    (1): try except else,如果try except 没有捕获到异常就会执行else语句
+    (2): try except finally 无论是否捕获到异常都会执行finally语句
+
+2. python中交换两个变量的值
+    (1): 如下
+        a,b = 1,2
+        print(a,b)
+        a,b =b,a
+        print(a,b)
+    (2):结果
+        1 2
+        2 1
+        
+3. 举例说明zip()函数的用法
+    (1): zip函数在运算时,会以一个或者多个序列(可迭代对象)为参数,返回一个元组,
+         且该元组的数据为这些可迭代对象中的并排元素,返回时遵循木桶效应,以最短
+         的序列为基准.
+         
+    (2): zip 参数可以接受多类型可迭代对像,如下
+            print([i for i in zip(range(7),range(6),range(5))])
+            #输出[(0, 0, 0), (1, 1, 1), (2, 2, 2), (3, 3, 3), (4, 4, 4)]
+            print([i for i in zip('abcdefg','1234','ABCDE')])
+            #输出[('a', '1', 'A'), ('b', '2', 'B'), ('c', '3', 'C'), ('d', '4', 'D')]
+            print([i for i in zip([1,2,3],['a','b','c'],['A','B','C','D'])])
+            #输出[(1, 'a', 'A'), (2, 'b', 'B'), (3, 'c', 'C')]
+4. 写一串正则表达式,将字符串a = '4apples'中的数字和字母加一个空格
+    import re
+    ret = re.sub(r'\d+',str(re.findall(r'\d+',"a = '4apples'")[0])+' ',"a = '4apples'")
+    print(ret)
+
+5. 写出几条常用的sql语句
+    (1): show databases; 显示所有数据库
+    (2): use database 数据库名; 进入到某个数据库
+    (3): show tanles ; 显示数据库中所有表
+    (4): desc 表名; 显示表的结构
+    (5): select * from 表名 ; 查看表中所有数据
+    (6): delete from 表名 where name = 'lihua'(条件),根据条件删除数据
+    (7): update 表名 set name = 'lihua',age = '12'(数据;数据....) where id = 5(条件),根据条件更新数据
+    (8): create database 数据库名; 新建数据库
+    (9): create table 表名(字段 类型[长度] ,字段 类型[长度](如 id char[20])) ,新建表
+    (10): insert into 表名(字段1,字段2) values(value1,value2) ,向表中插入数据
+
+6. str1 = 'python' ,和str2 = '你好',编译成bytes类型
+    str1 = 'python'
+    str2 = '你好'
+    print(b'python',type(b'python'))#b'python' <class 'bytes'>,字母可以字节b''即可
+    print(str1.encode('utf8'),type(str1.encode('utf8')))#b'python' <class 'bytes'>
+    print(str2.encode('utf
+
+7. [1,2,3] + [4,5,6]的结果是什么
+    print([1,2,3] + [4,5,6])#列表相加即合并,[1, 2, 3, 4, 5, 6]
+    print((1,2,3) + (4,5,6))#元组相加也是,(1, 2, 3, 4, 5, 6)
+    
+8. 提高Python运行效率方法:
+    (1): 尽量使用迭代器,节约内存
+    (2): 尽量使用局部变量,检索速度快
+    (3): 循环代码优化
+    (4): 核心模块使用Cpython 或者 pypy,提高效率
+    (5): 合理使用多线程,多进程,协程
+    (6): 多个if else 语句时,发生次数较多的放在前面,减少判断次数
+    
+9. 简述mysql和redis的区别
+    (1): mysql ,关系型数据库,数据保存在磁盘中,检索时有io操作,访问速度慢
+    (2): redis , 内存型非关系数据库, 数据保存在内存中,检索速度快
+    
+10. 遇到bug如何处理
+
+    (1): 细节上的错误可以直接print(),查看输出结果查找问题
+    (2): 库或者框架,可以查找官方文档
+    (3): 对于bug,可以进行管理与分类总结,用teambin 等等管理工具进行记录,然后一条条修改
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
